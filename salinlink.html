@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - Generate Link Undangan</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .container {
+      text-align: center;
+      margin-top: 50px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      width: 60%;
+      max-width: 400px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:disabled {
+      background-color: #ccc;
+    }
+    #generated-link {
+      font-size: 18px;
+      margin-top: 20px;
+      word-wrap: break-word;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Generate Link Undangan by:  "Kevin Ganteng Landunau"</h1>
+    <p>Masukkan nama Undangan,  untuk membuat link undangan personal / kirim ke orang tujuan</p>
+    <p>Setelah Selesai Salin Linknya,Langsung paste dan kirim ke orang tujuan</p>
+
+    <!-- Input nama -->
+    <input type="text" id="namaInput" placeholder="Masukkan Nama Anda" oninput="generateLink()">
+
+    <!-- Tampilkan link yang dihasilkan -->
+    <div id="generated-link"></div>
+
+    <!-- Tombol untuk menyalin link -->
+    <button id="copyButton" onclick="copyLink()" disabled>Salin Link</button>
+  </div>
+
+  <script>
+    // Fungsi untuk menyalin link ke clipboard
+    function copyLink() {
+      const link = document.getElementById('generated-link').textContent;
+      const textarea = document.createElement('textarea');
+      textarea.value = link;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Link Berhasil Disalin',
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    }
+
+    // Fungsi untuk menghasilkan link berdasarkan nama input
+    function generateLink() {
+      const nama = document.getElementById('namaInput').value.trim(); // Ambil nama dari input
+      const baseUrl = "https://kevinnn17.github.io/test/?nama="; // URL dasar
+      const encodedNama = encodeURIComponent(nama); // Encode nama agar aman dalam URL
+
+      if (nama) {
+        const generatedLink = baseUrl + encodedNama;
+        document.getElementById('generated-link').textContent = generatedLink;
+
+        // Enable tombol salin jika ada nama
+        document.getElementById('copyButton').disabled = false;
+      } else {
+        document.getElementById('generated-link').textContent = "";
+        document.getElementById('copyButton').disabled = true;
+      }
+    }
+  </script>
+</body>
+</html>
